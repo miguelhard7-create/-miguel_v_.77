@@ -1,252 +1,240 @@
 <!DOCTYPE html>
-
-<html>
-<head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="styles/style.css"/>
-  <title>Hello, World!</title>
-</head>
-<body>
-  <h1>
-    Hello, World!
-  </h1>
-</body>
-</html>
-<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MJJ Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel @miguel_v_.7</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#9d4edd">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/5968/5968267.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #00ff88; /* Mudei para um verde neon estilo 'Hacker' */
-            --bg-dark: #0a0a0a;
-            --card-bg: #151515;
-            --text: #ffffff;
+            --primary-color: #9d4edd; 
+            --bg-black: #000000;
+            --border-color: #5a189a;
+            --input-bg: #1a1a1a;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: rgba(0,0,0,0.8);
-            color: var(--text);
-            overflow: hidden;
-            user-select: none;
-        }
-
-        /* Botão Flutuante */
-        #open-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: none;
+            background-color: #121212;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 15px var(--primary);
-            z-index: 999;
-            color: black;
-            font-weight: bold;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            overflow: hidden;
         }
 
-        /* Painel MJJ */
         .panel {
-            width: 300px;
-            background: var(--card-bg);
-            border: 1px solid var(--primary);
-            border-radius: 8px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+            width: 380px;
+            background-color: var(--bg-black);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #222;
+            box-shadow: 0 0 40px rgba(0,0,0,1);
+            z-index: 100;
         }
 
-        .header {
+        .top-bar {
+            background-color: var(--primary-color);
+            padding: 12px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 8px;
-            margin-bottom: 20px;
+            font-weight: 800;
         }
 
-        .header h1 {
-            margin: 0;
-            font-size: 26px;
-            letter-spacing: 3px;
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
-        }
-
-        .close-btn {
-            background: transparent;
-            border: 1px solid #ff4444;
-            color: #ff4444;
-            padding: 4px 8px;
+        .btn-hide {
+            background: rgba(0, 0, 0, 0.4);
+            border: none;
+            color: white;
+            padding: 4px 10px;
             border-radius: 4px;
-            cursor: pointer;
             font-size: 10px;
-        }
-
-        .option-group {
-            margin-bottom: 20px;
-        }
-
-        .label-text {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 8px;
-            color: #aaa;
+            cursor: pointer;
             text-transform: uppercase;
         }
 
-        input[type="range"] {
-            width: 100%;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        .aim-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+        .tab-bar {
+            display: flex;
+            padding: 10px;
             gap: 8px;
-            margin: 20px 0;
+            border-bottom: 2px solid var(--border-color);
         }
 
-        .aim-btn {
-            background: #222;
-            border: 1px solid #444;
+        .tab {
+            background-color: var(--primary-color);
             color: white;
-            padding: 12px 2px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .aim-btn.active {
-            background: var(--primary);
-            color: black;
-            border-color: white;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        /* Botão Injetar */
-        #inject-btn {
-            width: 100%;
-            padding: 15px;
-            background: transparent;
-            border: 2px solid var(--primary);
-            border-radius: 5px;
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 16px;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
             cursor: pointer;
-            transition: 0.3s;
+            opacity: 0.4;
+            flex: 1;
         }
 
-        #inject-btn:active {
-            background: var(--primary);
-            color: black;
+        .tab.active { opacity: 1; font-weight: bold; }
+
+        #loginScreen { padding: 40px 30px; text-align: center; }
+        .key-input {
+            width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid #333;
+            border-radius: 8px; color: white; text-align: center; margin-bottom: 15px; box-sizing: border-box;
         }
 
-        #status-msg {
-            text-align: center;
-            font-size: 12px;
-            margin-top: 15px;
-            min-height: 20px;
-            font-weight: bold;
+        #reopenBtn {
+            position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
+            background-color: #000; border: 2px solid var(--primary-color); border-radius: 50%;
+            display: none; cursor: pointer; box-shadow: 0 0 15px var(--primary-color); z-index: 999;
+            color: white; align-items: center; justify-content: center;
         }
 
-        .footer {
-            text-align: center;
-            font-size: 10px;
-            color: #666;
-            margin-top: 20px;
-            border-top: 1px dashed #333;
-            padding-top: 10px;
+        .content-section { padding: 15px 20px; display: none; min-height: 300px; overflow-y: auto; max-height: 400px; }
+        .content-section.active { display: block; }
+
+        .option-row { display: flex; align-items: center; margin-bottom: 12px; font-size: 14px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        input[type="checkbox"] {
+            appearance: none; width: 22px; height: 22px; background: #1a1a1a;
+            border: 1px solid #333; border-radius: 4px; margin-right: 12px; cursor: pointer;
         }
+        input[type="checkbox"]:checked { background: var(--primary-color); position: relative; }
+        input[type="checkbox"]:checked::after { content: '✓'; color: white; position: absolute; left: 5px; top: -1px; font-weight: bold; }
+
+        .btn-action { width: 100%; background-color: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+        .divider { height: 1px; background: var(--border-color); margin: 15px 0; opacity: 0.5; }
+
+        .info-item { background: #0d0d0d; padding: 12px; border-left: 4px solid var(--primary-color); border-radius: 4px; margin-bottom: 10px; }
+        .info-label { color: var(--primary-color); font-size: 9px; text-transform: uppercase; font-weight: bold; }
+        .info-value { font-size: 14px; margin-top: 2px; display: block; font-family: 'Consolas', monospace; }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div id="open-btn" onclick="togglePanel()">MJJ</div>
+<button id="reopenBtn" onclick="toggleVisibility()"><i class="fas fa-eye"></i></button>
 
-    <div class="panel" id="main-panel">
-        <div class="header">
-            <h1>MJJ</h1>
-            <button class="close-btn" onclick="togglePanel()">ESCONDER</button>
-        </div>
-
-        <div class="option-group">
-            <span class="label-text">Ajuste de DPI Interna</span>
-            <input type="range" min="0" max="100" value="75" oninput="resetInject()">
-        </div>
-
-        <div class="option-group">
-            <span class="label-text">Suavização (Smooth)</span>
-            <input type="range" min="0" max="100" value="40" oninput="resetInject()">
-        </div>
-
-        <div class="aim-buttons">
-            <button class="aim-btn" onclick="setTarget(this)">CABEÇA</button>
-            <button class="aim-btn" onclick="setTarget(this)">PESCOÇO</button>
-            <button class="aim-btn" onclick="setTarget(this)">PEITO</button>
-        </div>
-
-        <button id="inject-btn" onclick="startInjection()">INJETAR</button>
-        <div id="status-msg"></div>
-
-        <div class="footer">DISPOSITIVO DETECTADO: SAMSUNG A05</div>
+<div class="panel" id="mainPanel">
+    
+    <div id="loginScreen">
+        <div style="font-size: 40px; color: var(--primary-color); margin-bottom: 15px;"><i class="fas fa-user-secret"></i></div>
+        <div style="margin-bottom: 20px; font-weight: bold;">PAINEL @MIGUEL_V_.7</div>
+        <input type="text" id="keyInput" class="key-input" placeholder="DIGITE A KEY (FFH4X)">
+        <button class="btn-action" onclick="checkLogin()">Entrar</button>
     </div>
 
-    <script>
-        const injectBtn = document.getElementById('inject-btn');
-        const statusMsg = document.getElementById('status-msg');
-        const panel = document.getElementById('main-panel');
-        const openBtn = document.getElementById('open-btn');
+    <div id="mainContent" class="hidden">
+        <div class="top-bar">
+            <span>@MIGUEL_V_.7</span>
+            <button class="btn-hide" onclick="toggleVisibility()">Esconder</button>
+        </div>
 
-        function togglePanel() {
-            if (panel.style.display === 'none') {
-                panel.style.display = 'block';
-                openBtn.style.display = 'none';
-            } else {
-                panel.style.display = 'none';
-                openBtn.style.display = 'flex';
-            }
+        <div class="tab-bar">
+            <div class="tab active" onclick="openTab('aimbot')"><i class="fas fa-crosshairs"></i> Aimbot</div>
+            <div class="tab" onclick="openTab('settings')"><i class="fas fa-cog"></i> Settings</div>
+            <div class="tab" onclick="openTab('info')"><i class="fas fa-info-circle"></i> Info</div>
+        </div>
+
+        <div id="aimbot" class="content-section active">
+            <div class="option-row"><input type="checkbox"> Aimbot Head</div>
+            <div class="option-row"><input type="checkbox"> Aim Lock (Grudar)</div>
+            <div class="option-row"><input type="checkbox"> Magic Bullet</div>
+            <div class="option-row"><input type="checkbox"> No Recoil</div>
+            <div class="divider"></div>
+            <button class="btn-action" id="injectBtn" onclick="inject()">Injetar Funções</button>
+        </div>
+
+        <div id="settings" class="content-section">
+            <div class="option-row"><input type="checkbox"> Ativar Opções Gerais</div>
+            <div class="divider"></div>
+            <div class="option-row"><input type="checkbox"> Calibrate Sight</div>
+            <div class="grid-2">
+                <div class="option-row"><input type="checkbox"> Optimize RAM</div>
+                <div class="option-row"><input type="checkbox"> Virtual Sens</div>
+                <div class="option-row"><input type="checkbox"> Remove Lags</div>
+                <div class="option-row"><input type="checkbox"> Reduce Crash</div>
+            </div>
+            <div class="divider"></div>
+            <div class="option-row"><input type="checkbox"> Anti-Ban System</div>
+        </div>
+
+        <div id="info" class="content-section">
+            <div class="info-container">
+                <div class="info-item">
+                    <span class="info-label">Owner / DEV</span>
+                    <span class="info-value">@miguel_v_.7</span>
+                </div>
+                <div class="info-item" style="border-color: #00ff88;">
+                    <span class="info-label" style="color: #00ff88;">Status da Licença</span>
+                    <span class="info-value">Key: FFH4X (Ativa)</span>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div style="background: #111; padding: 10px; border-radius: 8px;">
+                <span style="font-size: 11px; color: #888;">COR DO TEMA</span>
+                <input type="color" id="themeColor" value="#9d4edd" oninput="changeTheme(this.value)" style="width: 100%; margin-top: 5px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Registro do Service Worker para Instalação
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+
+    function checkLogin() {
+        if(document.getElementById('keyInput').value === "FFH4X") {
+            document.getElementById('loginScreen').style.display = "none";
+            document.getElementById('mainContent').classList.remove('hidden');
+        } else { alert("Key Inválida!"); }
+    }
+
+    function toggleVisibility() {
+        const panel = document.getElementById('mainPanel');
+        const reopen = document.getElementById('reopenBtn');
+        if(panel.style.display === "none") {
+            panel.style.display = "block";
+            reopen.style.display = "none";
+        } else {
+            panel.style.display = "none";
+            reopen.style.display = "flex";
         }
+    }
 
-        function setTarget(btn) {
-            document.querySelectorAll('.aim-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            resetInject();
-        }
+    function openTab(tabId) {
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
 
-        // Função que faz o botão voltar ao estado original se mexer em algo
-        function resetInject() {
-            injectBtn.style.display = 'block';
-            statusMsg.innerText = '';
-            injectBtn.innerText = 'INJETAR';
-        }
+    function inject() {
+        const btn = document.getElementById('injectBtn');
+        btn.innerHTML = "INJETANDO...";
+        setTimeout(() => { 
+            btn.innerHTML = "INJETADO COM SUCESSO!"; 
+            btn.style.backgroundColor = "#00ff88"; 
+            btn.style.color = "#000";
+        }, 2000);
+    }
 
-        function startInjection() {
-            injectBtn.style.display = 'none';
-            statusMsg.style.color = '#00ffff';
-            statusMsg.innerText = 'INJETANDO CÓDIGOS...';
-
-            // Timer de 5 segundos
-            setTimeout(() => {
-                statusMsg.style.color = '#00ff88';
-                statusMsg.innerText = 'CÓDIGOS INJETADOS COM SUCESSO!';
-            }, 5000);
-        }
-    </script>
+    function changeTheme(color) {
+        document.documentElement.style.setProperty('--primary-color', color);
+        document.getElementById('reopenBtn').style.borderColor = color;
+        document.getElementById('reopenBtn').style.boxShadow = `0 0 15px ${color}`;
+    }
+</script>
 </body>
 </html>
