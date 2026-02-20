@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>Hello, World!</title>
+</head>
+<body>
+  <h1>
+    Hello, World!
+  </h1>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MJJ Panel</title>
+    <style>
+        :root {
+            --primary: #00ff88; /* Mudei para um verde neon estilo 'Hacker' */
+            --bg-dark: #0a0a0a;
+            --card-bg: #151515;
+            --text: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: rgba(0,0,0,0.8);
+            color: var(--text);
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Botão Flutuante */
+        #open-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px var(--primary);
+            z-index: 999;
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Painel MJJ */
+        .panel {
+            width: 300px;
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .close-btn {
+            background: transparent;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .option-group {
+            margin-bottom: 20px;
+        }
+
+        .label-text {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 8px;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .aim-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .aim-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            padding: 12px 2px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .aim-btn.active {
+            background: var(--primary);
+            color: black;
+            border-color: white;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Botão Injetar */
+        #inject-btn {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            border-radius: 5px;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #inject-btn:active {
+            background: var(--primary);
+            color: black;
+        }
+
+        #status-msg {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 15px;
+            min-height: 20px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+            margin-top: 20px;
+            border-top: 1px dashed #333;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="open-btn" onclick="togglePanel()">MJJ</div>
+
+    <div class="panel" id="main-panel">
+        <div class="header">
+            <h1>MJJ</h1>
+            <button class="close-btn" onclick="togglePanel()">ESCONDER</button>
+        </div>
+
+        <div class="option-group">
+            <span class="label-text">Ajuste de DPI Interna</span>
+            <input type="range" min="0" max="100" value="75" oninput="resetInject()">
+        </div>
+
+        <div class="option-group">
+            <span class="label-text">Suavização (Smooth)</span>
+            <input type="range" min="0" max="100" value="40" oninput="resetInject()">
+        </div>
+
+        <div class="aim-buttons">
+            <button class="aim-btn" onclick="setTarget(this)">CABEÇA</button>
+            <button class="aim-btn" onclick="setTarget(this)">PESCOÇO</button>
+            <button class="aim-btn" onclick="setTarget(this)">PEITO</button>
+        </div>
+
+        <button id="inject-btn" onclick="startInjection()">INJETAR</button>
+        <div id="status-msg"></div>
+
+        <div class="footer">DISPOSITIVO DETECTADO: SAMSUNG A05</div>
+    </div>
+
+    <script>
+        const injectBtn = document.getElementById('inject-btn');
+        const statusMsg = document.getElementById('status-msg');
+        const panel = document.getElementById('main-panel');
+        const openBtn = document.getElementById('open-btn');
+
+        function togglePanel() {
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                openBtn.style.display = 'none';
+            } else {
+                panel.style.display = 'none';
+                openBtn.style.display = 'flex';
+            }
+        }
+
+        function setTarget(btn) {
+            document.querySelectorAll('.aim-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            resetInject();
+        }
+
+        // Função que faz o botão voltar ao estado original se mexer em algo
+        function resetInject() {
+            injectBtn.style.display = 'block';
+            statusMsg.innerText = '';
+            injectBtn.innerText = 'INJETAR';
+        }
+
+        function startInjection() {
+            injectBtn.style.display = 'none';
+            statusMsg.style.color = '#00ffff';
+            statusMsg.innerText = 'INJETANDO CÓDIGOS...';
+
+            // Timer de 5 segundos
+            setTimeout(() => {
+                statusMsg.style.color = '#00ff88';
+                statusMsg.innerText = 'CÓDIGOS INJETADOS COM SUCESSO!';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
